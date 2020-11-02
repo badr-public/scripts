@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yum update
+yum update -y
 yum install -y sudo openssh-server vim zip unzip wget qemu-guest-agent selinux epel-release yum-utils wget vim zip unzip mutt cyrus-sasl-plain certbot certbot-nginx nginx
 
 groups betob
@@ -17,13 +17,14 @@ systemctl start sshd
 systemctl enable sshd
 
 if [ "${1}" == "vpn" ]; then
-  ROUTE_FILE='~/route_vpn.sh';
+
+  # ./run.sh vpn 10.0.7.200 10.0.7.0 '192.168.0.0;255.255.255.0 192.168.1.0;255.255.255.0'
+
   VPN_PRIVATE_IP=${2}
   VPN_GATEWAY=${3}
-  # 192.168.2.0;255.255.255.0 10.0.3.0;255.255.255.0 10.0.6.0;255.255.255.0
   VPN_ROUTES="${4}"  
 
-  yum install openvpn easy-rsa iptables-services
+  yum install -y openvpn easy-rsa iptables-services
   echo "#!/bin/bash -x
   
   systemctl start openvpn@sp1
@@ -35,11 +36,11 @@ if [ "${1}" == "vpn" ]; then
   EX_VALUE=\$?
   done
 
-  # routes" > ${ROUTE_FILE}
+  # routes" > ~/route_vpn.sh
   for VPN_ROUTE in ${VPN_ROUTES}; do
     NET=$(echo ${VPN_ROUTE} | cut -d';' -f1);
     MASK=$(echo ${VPN_ROUTE} | cut -d';' -f2);
-    echo "route add -net ${NET} netmask ${MASK} gw ${VPN_GATEWAY}" >> ${ROUTE_FILE}
+    echo "  route add -net ${NET} netmask ${MASK} gw ${VPN_GATEWAY}" >> ~/route_vpn.sh
   done
   echo "
   # remove ssh from public interface
@@ -47,15 +48,20 @@ if [ "${1}" == "vpn" ]; then
   if [ \$? -eq 0 ]; then
     firewall-cmd --zone=trusted --change-interface=tun0
     firewall-cmd --zone=public --remove-service=ssh
-  fi" >> ${ROUTE_FILE}
+  fi" >> ~/route_vpn.sh
+  chmod +x ~/route_vpn.sh
 
 elif [ "${1}" == "private" ]; then
+
+  # ./run.sh private
+
   ## Disable selinux
   setsebool -P httpd_can_network_connect 1
   sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
   ## Disable firewall
   systemctl disable firewalld
+
 fi
 
 reboot
