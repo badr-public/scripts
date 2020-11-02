@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yum update
+yum update -y
 yum install -y sudo openssh-server vim zip unzip wget qemu-guest-agent selinux
 #!/bin/bash
 
