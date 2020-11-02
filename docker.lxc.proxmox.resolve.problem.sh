@@ -5,7 +5,7 @@ if [ ! -f /etc/pve/local/lxc/${1}.conf ]; then
     exit 1
 fi
 
-pct stop ${i}
+pct stop ${1}
 
 echo '#insert docker part below
 lxc.apparmor.profile: unconfined
