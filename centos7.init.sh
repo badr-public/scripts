@@ -16,13 +16,15 @@ chmod -R 700 /home/betob/.ssh
 systemctl start sshd
 systemctl enable sshd
 
-if [ "${1}" == "vpn" ]; then
+echo ${1} > /etc/hostname
+
+if [ "${2}" == "vpn" ]; then
 
   # ./run.sh vpn 10.0.7.200 10.0.7.0 '192.168.0.0;255.255.255.0 192.168.1.0;255.255.255.0'
 
-  VPN_PRIVATE_IP=${2}
-  VPN_GATEWAY=${3}
-  VPN_ROUTES="${4}"  
+  VPN_PRIVATE_IP=${3}
+  VPN_GATEWAY=${4}
+  VPN_ROUTES="${5}"  
 
   yum install -y openvpn easy-rsa iptables-services
   echo "#!/bin/bash -x
@@ -51,7 +53,7 @@ if [ "${1}" == "vpn" ]; then
   fi" >> ~/route_vpn.sh
   chmod +x ~/route_vpn.sh
 
-elif [ "${1}" == "private" ]; then
+elif [ "${2}" == "private" ]; then
 
   # ./run.sh private
 
