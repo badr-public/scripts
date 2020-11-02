@@ -1,6 +1,5 @@
 #!/bin/bash
 
-yum update -y
 yum install -y sudo openssh-server vim zip unzip wget qemu-guest-agent selinux epel-release yum-utils wget vim zip unzip mutt cyrus-sasl-plain certbot certbot-nginx nginx
 yum update -y
 
