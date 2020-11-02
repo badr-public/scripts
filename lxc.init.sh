@@ -1,7 +1,7 @@
 #!/bin/bash
 
 yum update -y
-yum install -y sudo openssh-server vim wget zip unzip
+yum install -y sudo openssh-server vim wget zip unzip selinux
 
 adduser betob
 mkdir /home/betob/.ssh
@@ -14,3 +14,4 @@ echo 'betob ALL=(ALL) ALL' >> /etc/sudoers
 systemctl start sshd
 systemctl enable sshd
 
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
