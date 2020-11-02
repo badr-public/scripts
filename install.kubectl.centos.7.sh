@@ -1,9 +1,11 @@
 #!/bin/bash
 
-
-
 modprobe br_netfilter
 echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+sed -i 's;--containerd=/run/containerd/containerd.sock;--containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd;' /usr/lib/systemd/system/docker.service
+systemctl daemon-reload
+systemctl restart docker
 
 # kubectl
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
