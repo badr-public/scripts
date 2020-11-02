@@ -8,4 +8,4 @@ install docker
 
 docker on lxc proxmox
 * curl https://raw.githubusercontent.com/badr-public/scripts/master/docker.lxc.proxmox.resolve.problem.sh > docker.lxc.proxmox.resolve.problem.sh
-* bash -x docker.lxc.proxmox.resolve.problem.sh '<CONTAINER ID>'
+* bash -x docker.lxc.proxmox.resolve.problem.sh 'CONTAINER ID'
