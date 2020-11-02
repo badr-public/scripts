@@ -2,6 +2,7 @@
 
 yum update -y
 yum install -y sudo openssh-server vim zip unzip wget qemu-guest-agent selinux epel-release yum-utils wget vim zip unzip mutt cyrus-sasl-plain certbot certbot-nginx nginx
+yum update -y
 
 groups betob
 if [ $? -ne 0 ]; then
@@ -20,7 +21,7 @@ echo ${1} > /etc/hostname
 
 if [ "${2}" == "vpn" ]; then
 
-  # ./run.sh vpn 10.0.7.200 10.0.7.0 '192.168.0.0;255.255.255.0 192.168.1.0;255.255.255.0'
+  # ./run.sh myHostname vpn 10.0.7.200 10.0.7.0 '192.168.0.0;255.255.255.0 192.168.1.0;255.255.255.0'
 
   VPN_PRIVATE_IP=${3}
   VPN_GATEWAY=${4}
@@ -55,7 +56,7 @@ if [ "${2}" == "vpn" ]; then
 
 elif [ "${2}" == "private" ]; then
 
-  # ./run.sh private
+  # ./run.sh myHostname private
 
   ## Disable selinux
   setsebool -P httpd_can_network_connect 1
