@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yum install -y sudo firewalld openssh-server vim zip unzip wget qemu-guest-agent selinux epel-release yum-utils wget vim zip unzip mutt cyrus-sasl-plain certbot certbot-nginx nginx
+yum install -y sudo firewalld openssh-server vim zip unzip wget qemu-guest-agent selinux epel-release yum-utils wget vim zip unzip mutt cyrus-sasl-plain
 yum update -y
 
 groups betob
