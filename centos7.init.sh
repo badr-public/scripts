@@ -53,6 +53,12 @@ if [ "${2}" == "vpn" ]; then
   fi" >> ~/route_vpn.sh
   chmod +x ~/route_vpn.sh
 
+  echo '~/route_vpn.sh' >> /etc/rc.d/rc.local
+
+  chmod +x /etc/rc.d/rc.local
+  systemctl enable rc-local
+  systemctl start rc-local
+
 elif [ "${2}" == "private" ]; then
 
   # ./run.sh myHostname private
